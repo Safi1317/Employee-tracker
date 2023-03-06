@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Safi1317/Employee-tracker/issues"
   },
-  "homepage": "https://github.com/Safi1317/Employee-tracker#readme"
+  "homepage": "https://github.com/Safi1317/Employee-tracker#readme",
+  "dependencies": {
+    "inquirer": "^9.1.4"
+  }
 }

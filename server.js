@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-const express = require("express");
+
 const mysql = require("mysql2");
 const db = mysql.createConnection(
   {
@@ -59,8 +59,8 @@ function viewDepartments() {
       throw err;
     }
     console.table(results);
-    employeePrompt();
   });
+  employeePrompt();
 }
 function viewRoles() {
   db.query("SELECT * FROM role", function (err, results) {
@@ -68,8 +68,8 @@ function viewRoles() {
       throw err;
     }
     console.table(results);
-    employeePrompt();
   });
+  employeePrompt();
 }
 function viewEmployees() {
   db.query("SELECT * FROM employee", function (err, results) {
@@ -77,8 +77,8 @@ function viewEmployees() {
       throw err;
     }
     console.table(results);
-    employeePrompt();
   });
+  employeePrompt();
 }
 function addDepartment() {}
 function addRole() {}
