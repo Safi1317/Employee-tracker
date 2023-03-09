@@ -1,19 +1,9 @@
 const inquirer = require("inquirer");
-
-const mysql = require("mysql2");
-const db = mysql.createConnection(
-  {
-    host: "localhost",
-    // MySQL username,
-    user: "root",
-    // MySQL password
-    password: "",
-    database: "employee_db",
-  },
-  console.log(`Connected to the employee_db database.`)
-);
+const db = require("./db/index");
+require("console.table");
 
 function employeePrompt() {
+  console.log("prompt");
   inquirer
     .prompt([
       {
@@ -49,38 +39,70 @@ function employeePrompt() {
       } else if (choices.addEmployeePrompt == "update an employee") {
         return updateEmployee();
       } else {
-        console.log("done");
+        process.exit();
       }
     });
 }
 function viewDepartments() {
-  db.query("SELECT * FROM department", function (err, results) {
-    if (err) {
-      throw err;
-    }
-    console.table(results);
-  });
-  employeePrompt();
+  db.getAllDepartments()
+    .then(([rows]) => {
+      let departments = rows;
+      console.table(departments);
+    })
+    .then(() => employeePrompt());
 }
 function viewRoles() {
-  db.query("SELECT * FROM role", function (err, results) {
-    if (err) {
-      throw err;
-    }
-    console.table(results);
-  });
-  employeePrompt();
+  db.getAllRoles()
+    .then(([rows]) => {
+      let roles = rows;
+      console.table(roles);
+    })
+    .then(() => employeePrompt());
 }
 function viewEmployees() {
-  db.query("SELECT * FROM employee", function (err, results) {
-    if (err) {
-      throw err;
-    }
-    console.table(results);
-  });
-  employeePrompt();
+  db.getAllEmployees()
+    .then(([rows]) => {
+      let employee = rows;
+      console.table(employee);
+    })
+    .then(() => employeePrompt());
 }
-function addDepartment() {}
-function addRole() {}
+function addDepartment() {
+
+  
+}
+function addRole() {
+  db.getAllDepartments().then(([rows]) => {
+    let departments = rows;
+    const departmentchoices = departments.map(({ id, name }) => ({
+      name: name,
+      value: id,
+    }));
+    inquirer
+      .prompt([
+        {
+          name: "title",
+          message: " what the name of the role",
+        },
+        {
+          name: "salary",
+          message: " what is the salary",
+        },
+        {
+          type: "list",
+          name: "departmentid",
+          message: " which department does the role belong to",
+          choices: departmentchoices,
+        },
+      ])
+      .then((role) => {
+        db.AddRole(role);
+      })
+      .then(() => employeePrompt());
+  });
+}
+
 function addEmployee() {}
 function updateEmployee() {}
+
+employeePrompt();
