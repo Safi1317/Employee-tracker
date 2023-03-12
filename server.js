@@ -133,7 +133,7 @@ inquirer
     },
     {
       type: "list",
-      name: "departmentid",
+      name: "department_id",
       message: " which department does the role belong to",
       choices: departmentchoices,
     },
@@ -144,7 +144,7 @@ console.log(answers);
     db.query('INSERT INTO role SET ?', {
         title: answers.title,
         salary: answers.salary, 
-        department_id: parseInt(answers.department),
+        department_id: parseInt(answers.department_id),
     },
     function(err, results) {
         if (err){
