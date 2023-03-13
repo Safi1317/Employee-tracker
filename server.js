@@ -4,7 +4,7 @@ const db = require('./db/connection');
 require("console.table");
 
 function employeePrompt() {
-  console.table("qw,we,th,atr");
+
   console.log("prompt");
   inquirer
     .prompt([
